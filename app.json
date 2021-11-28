@@ -1,0 +1,48 @@
+{
+    "name": "2TCli Discord Bot",
+    "description": "A powerful Discord Bot built-in Worn Off Keys Commands",
+    "keywords": [
+        "2TCli",
+        "Discord Bot"
+    ],
+    "logo": "https://cdn.discordapp.com/avatars/845207738690437191/e22ed888457430485349304082bdfbd7.png?size=1024",
+    "env": {
+        "BOT_TOKEN": {
+          "description": "A token to connect to the Discord Bot",
+          "value": ""
+        },
+        "BOT_PREFIX": {
+          "description": "The prefix for the bot",
+          "value": "!"
+        },
+        "BOT_OWNER_ID": {
+            "description": "Your Discord Account ID",
+            "value": ""
+        },
+        "DB_USERNAME": {
+            "description": "Username of a MongoDB Database",
+            "value": ""
+        },
+        "DB_PASSWORD": {
+            "description": "Password of the User of MongoDB Database",
+            "value": ""
+        },
+        "DB_HOST": {
+            "description": "MongoDB Database host",
+            "value": ""
+        },
+        "DB_PORT": {
+            "description": "MongoDB Database port",
+            "value": "27017"
+        },
+        "DB_NAME": {
+            "description": "MongoDB Database Name",
+            "value": ""
+        }
+    },
+    "buildpacks": [
+        {
+            "url": "heroku/nodejs"
+        }
+    ]
+}

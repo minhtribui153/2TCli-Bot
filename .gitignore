@@ -1,0 +1,7 @@
+# Configuration File
+.env
+
+# Folders
+/node_modules
+# Ignore backups folder
+/sources/backups
