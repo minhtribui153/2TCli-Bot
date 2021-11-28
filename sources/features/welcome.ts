@@ -9,7 +9,6 @@ const welcomeData = {} as {
 
 export default (client: Client, instance: WOKCommands) => {
     client.on('guildMemberAdd', async (member) => {
-        console.log('[INFO] New member joined');
         const { guild, id } = member;
 
         let data = welcomeData[guild.id];
