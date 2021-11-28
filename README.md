@@ -1,1 +1,1 @@
-# <img src="" /> 2TCli Discord Bot
+# <img width=70 height=70 style="border-radius: 50%; align: center;" src="https://cdn.discordapp.com/avatars/845207738690437191/e22ed888457430485349304082bdfbd7.png?size=1024" /> <p>2TCli Discord Bot
