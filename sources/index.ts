@@ -75,4 +75,6 @@ client.on('ready', async () => {
     
 });
 
+export default client;
+
 client.login(process.env.BOT_TOKEN);

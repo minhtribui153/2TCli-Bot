@@ -1,5 +1,5 @@
 import { ICommand } from "wokcommands";
-import axios, { Axios, AxiosPromise, Method } from "axios";
+import axios, { Method } from "axios";
 import { MessageEmbed } from "discord.js";
 
 const actions = ['get', 'post', 'patch', 'delete', 'put'];
