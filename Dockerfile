@@ -1,5 +1,4 @@
 # Use Image
-FROM jrottenberg/ffmpeg:latest
 FROM node:latest
 
 # Create Discord Bot directory
