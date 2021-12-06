@@ -1,75 +1,107 @@
+import { Role, User } from "discord.js";
 import { ICommand } from "wokcommands";
-
-const actions = ['give', 'remove', 'has'];
 
 export default {
     category: 'Moderation',
     description: 'Manages the role of a user',
     permissions: ['MANAGE_ROLES'],
-    minArgs: 3,
-    expectedArgs: `<${actions.join('", "')}> <user @> <role @>`,
-    slash: 'both',
+    slash: true,
     options: [
         {
-            name: "action",
-            description: `The action to perform. One of: ${actions.join(', ')}`,
-            type: "STRING",
-            required: true,
-            choices: actions.map((action) => ({
-                name: action,
-                value: action,
-            })),
+            name: 'give',
+            description: 'Gives a role to a user',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'user',
+                    description: 'The user to give the role to',
+                    type: 'USER',
+                    required: true,
+                },
+                {
+                    name: 'role',
+                    description: 'The role to give the user',
+                    type: 'ROLE',
+                    required: true,
+                },
+            ],
         },
         {
-            name: 'user',
-            description: 'The user to perform the action on',
-            type: 'USER',
-            required: true,
+            name: 'remove',
+            description: 'Removes a role from a user',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'user',
+                    description: 'The user to remove the role from',
+                    type: 'USER',
+                    required: true,
+                },
+                {
+                    name: 'role',
+                    description: 'The role to remove from the user',
+                    type: 'ROLE',
+                    required: true,
+                },
+            ],
         },
         {
-            name: 'role',
-            description: 'The role to perform the action on',
-            type: 'ROLE',
-            required: true,
-        },
+            name: 'has',
+            description: 'Checks if a user has a role',
+            type: 'SUB_COMMAND',
+            options: [
+                {
+                    name: 'user',
+                    description: 'The user to check what role that user has',
+                    type: 'USER',
+                    required: true,
+                },
+                {
+                    name: 'role',
+                    description: 'The role to check if the user has that role',
+                    type: 'ROLE',
+                    required: true,
+                }
+            ],
+        }
     ],
 
-    callback: ({ guild, args }) => {
-        const action = args.shift();
-        if (!action || !actions.includes(action)) return {
-            custom: true,
-            content: `❌ Unknown action! Please choose one of the following: ${actions.join(', ')}`,
-            ephemeral: true,
-        }
+    callback: ({ interaction, guild, args }) => {
+        const subCommand = interaction.options.getSubcommand();
 
-        const memberId = args.shift()!.replace(/[<@!&>]/g, '');
-        const roleId = args.shift()!.replace(/[<@!&>]/g, '');
+        const member1 = interaction.options.getUser('user') as User;
+        const role = interaction.options.getRole('role') as Role;
 
-        const member = guild!.members.cache.get(memberId);
-        const role = guild!.roles.cache.get(roleId);
+        const member = guild?.members.cache.get(member1.id);
 
         if (!member) {
-            return `❌ Unable to find member with ID ${memberId}`;
+            return {
+                custom: true,
+                content: `❌ Unable to find user`,
+                ephemeral: true,
+            };
         }
 
         if (!role) {
-            return `❌ Unable to find role with ID ${roleId}`;
+            return {
+                custom: true,
+                content: `❌ Unable to find role`,
+                ephemeral: true,
+            };
         }
 
-        switch(action) {
+        switch(subCommand) {
             case 'has':
-                return member.roles.cache.has(roleId)
-                    ? `ℹ️ Member <@${memberId}> has role <@&${roleId}>`
-                    : `ℹ️ Member <@${memberId}> does not have role <@&${roleId}>`;
+                return member.roles.cache.has(role.id)
+                    ? `ℹ️ Member <@${member.id}> has role <@&${role.id}>`
+                    : `ℹ️ Member <@${member.id}> does not have role <@&${role.id}>`;
             case 'give':
                 member.roles.add(role);
-                return `✅ Role <@&${roleId}> given to <@${memberId}>`;
+                return `✅ Role <@&${role.id}> given to <@${member.id}>`;
             
             case 'remove':
                 member.roles.remove(role);
-                return `✅ Role <@&${roleId}> removed from <@${memberId}>`;
+                return `✅ Role <@&${role.id}> removed from <@${member.id}>`;
         }
-
-        return '❌ Unknown action!'
     }
 } as ICommand;

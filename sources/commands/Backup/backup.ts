@@ -11,26 +11,54 @@ export default {
     permissions: ["ADMINISTRATOR"],
     options: [
         {
-            name: "action",
-            description: `The action to perform. Valid actions are: ${actions.join(", ")}`,
-            type: "STRING",
-            choices: actions.map((action) => ({
-                name: action,
-                value: action,
-            })),
-            required: true,
+            name: "create",
+            description: "Creates a backup of your server",
+            type: "SUB_COMMAND",
+            options: [],
         },
         {
-            name: "backup-id",
-            description: "The backup ID to use to restore/check information of/delete the server",
-            type: "STRING",
-            required: false,
-        }
+            name: "info",
+            description: "Shows information about a server backup",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "backup-id",
+                    description: "The backup ID to use to check information of the server",
+                    type: "STRING",
+                    required: true,
+                }
+            ],
+        },
+        {
+            name: "load",
+            description: "Restores a backup of a server",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "backup-id",
+                    description: "The backup ID to use to restore the server",
+                    type: "STRING",
+                    required: true,
+                }
+            ],
+        },
+        {
+            name: "delete",
+            description: "Deletes a backup of a server",
+            type: "SUB_COMMAND",
+            options: [
+                {
+                    name: "backup-id",
+                    description: "The backup ID to use to delete the server",
+                    type: "STRING",
+                    required: false,
+                }
+            ]
+        },
     ],
     slash: true,
     callback: async ({ interaction, guild, channel, args, user }) => {
-        interaction.deferReply();
-        const action = args.shift();
+        const SubCommand = interaction.options.getSubcommand();
 
         if (!guild) {
             return {
@@ -42,13 +70,7 @@ export default {
 
         setStorageFolder(__dirname + "/../../backups");
 
-        if (!action || !actions.includes(action)) return {
-            content: `❌ Provide a valid action! One of ${actions.join('", "')}`,
-            custom: true,
-            ephemeral: true,
-        };
-
-        switch (action) {
+        switch (SubCommand) {
             case "create":
                 const ConfirmEmbed = new MessageEmbed()
                     .setDescription('⚠️ Are you sure you want to create a backup? This might stop bot actions and slow down your server!!!')
@@ -343,7 +365,7 @@ export default {
                         .setAuthor(interaction.user.username, interaction.user.displayAvatarURL({
                             dynamic: true
                         }))
-                        .setDescription(`You must specify a valid backup ID To Remove`)
+                        .setDescription(`❌ You must specify a valid backup ID To Remove`)
 
                         .setColor('RED')
 
