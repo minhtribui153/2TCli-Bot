@@ -8,6 +8,23 @@ const prefix = process.env.BOT_PREFIX || "!";
 const mongoURI = process.env.DB_URI as string;
 const guilds: any[] = [];
 
+if (!process.env.BOT_TOKEN) {
+    console.error('Error > No bot token found');
+    process.exit(1);
+}
+if (!process.env.DB_URI) {
+    console.error('Error > No MongoDB URI found');
+    process.exit(1);
+}
+if (!process.env.BOT_OWNER_ID) {
+    console.error('Error > No Bot Owner ID found');
+    process.exit(1);
+}
+
+if (!process.env.BOT_PREFIX) {
+    console.log('Error > No bot prefix found');
+}
+
 
 const client = new DiscordJS.Client({
     intents: [
@@ -15,6 +32,7 @@ const client = new DiscordJS.Client({
         Intents.FLAGS.GUILD_MESSAGES,
         Intents.FLAGS.GUILD_MEMBERS,
         Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
+        Intents.FLAGS.GUILD_VOICE_STATES,
     ],
 });
 
@@ -25,7 +43,7 @@ client.on('ready', async () => {
     new WOKCommands(client, {
         commandsDir: path.join(__dirname, 'commands'),
         featuresDir: path.join(__dirname, 'features'),
-        botOwners: [process.env.BOT_OWNER_ID || ""],
+        botOwners: [process.env.BOT_OWNER_ID || "!"],
         mongoUri: mongoURI,
         dbOptions: {
             keepAlive: true,
@@ -60,6 +78,10 @@ client.on('ready', async () => {
             {
                 name: 'Backup',
                 emoji: '💾',
+            },
+            {
+                name: "Music",
+                emoji: "🎶"
             }
         ])
         .setDefaultPrefix(prefix);

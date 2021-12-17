@@ -1,9 +1,14 @@
 # Use Image
-FROM node:latest
+FROM jrottenberg/ffmpeg:latest
+FROM node:16
 
 # Create Discord Bot directory
 RUN mkdir -p /usr/src/bot
 WORKDIR /usr/src/bot
+
+# Initialize correct version
+RUN npm install -g n
+RUN n 16.6.0
 
 # Install required NPM packages
 RUN npm install -g typescript ts-node nodemon
