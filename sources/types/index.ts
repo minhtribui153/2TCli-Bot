@@ -4,3 +4,9 @@ export type Item = {
     price: number;
     icon: string;
 }
+
+export type Category = {
+    label: string
+    amount: number
+    emoji: string
+};

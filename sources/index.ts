@@ -2,6 +2,7 @@ import DiscordJS, { Intents } from 'discord.js';
 import WOKCommands from 'wokcommands';
 import path from 'path';
 import 'dotenv/config';
+import categories from './data/categories';
 
 
 const prefix = process.env.BOT_PREFIX || "!";
@@ -48,42 +49,10 @@ client.on('ready', async () => {
         dbOptions: {
             keepAlive: true,
         },
-        typeScript: true
+        typeScript: true,
+        disabledDefaultCommands: ["help"],
     })
-        .setCategorySettings([
-            {
-                name: 'Server',
-                emoji: '🗺️',
-            },
-            {
-                name: 'Moderation',
-                emoji: '🛠️',
-            },
-            {
-                name: 'Welcome',
-                emoji: '👋',
-            },
-            {
-                name: 'Entertainment',
-                emoji: '🎲',
-            },
-            {
-                name: 'Utility',
-                emoji: '🔧',
-            },
-            {
-                name: 'Documentation',
-                emoji: '🧪',
-            },
-            {
-                name: 'Backup',
-                emoji: '💾',
-            },
-            {
-                name: "Music",
-                emoji: "🎶"
-            }
-        ])
+        .setCategorySettings(categories)
         .setDefaultPrefix(prefix);
     
 });
