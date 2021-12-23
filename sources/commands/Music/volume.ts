@@ -20,7 +20,7 @@ export default {
         const queue = player.getQueue(interaction.guildId);
         if (!queue?.playing) return {
             custom: true,
-            content: "❌ No music is currently being played",
+            content: "<:red_cross_mark:921691762433613824> No music is currently being played",
             ephemeral: true,
         }
         

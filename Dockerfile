@@ -1,6 +1,5 @@
 # Use Image
-FROM jrottenberg/ffmpeg:latest
-FROM node:16
+FROM node:latest
 
 # Create Discord Bot directory
 RUN mkdir -p /usr/src/bot

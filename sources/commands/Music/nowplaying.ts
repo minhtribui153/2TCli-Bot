@@ -12,7 +12,7 @@ export default {
         const queue = player.getQueue(guild?.id as string);
         if (!queue?.playing) return {
             custom: true,
-            content: "❌ No music is currently being played",
+            content: "<:red_cross_mark:921691762433613824> No music is currently being played",
             ephemeral: true,
         }
 
@@ -24,7 +24,6 @@ export default {
         };
 
         const reactEmoji = '⏹️';
-        console.log(queue.current.source);
         let source: string = "";
         if (queue.current.source === "youtube") {
             source = "<:YouTube:921283491344314368> YouTube";
@@ -36,6 +35,7 @@ export default {
         const embed = new MessageEmbed()
             .setTitle("Now Playing")
             .setDescription(`🎶 | [**${queue.current.title}**](${queue.current.url}) (\`${perc.progress}%\`)`)
+            .addField("Author", `${queue.current.author}`)
             .addField("Source", source)
             .addField("\u200b", progress)
             .setColor("YELLOW")
@@ -85,6 +85,8 @@ export default {
             const embed2 = new MessageEmbed()
                 .setTitle("Now Playing")
                 .setDescription(`🎶 | [**${queue2.current.title}**](${queue2.current.url}) (\`${perc2.progress}%\`)`)
+
+            .addField("Author", `${queue.current.author}`)
                 .addField("Source", source)
                 .addField("\u200b", progress2)
                 .setColor("YELLOW")

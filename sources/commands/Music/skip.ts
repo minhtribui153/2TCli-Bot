@@ -13,7 +13,7 @@ export default {
         if (!member.voice.channelId) {
             return {
                 custom: true,
-                content: "❌ You need to be in a voice channel first",
+                content: "<:red_cross_mark:921691762433613824> You need to be in a voice channel first",
                 ephemeral: true,
             }
         }

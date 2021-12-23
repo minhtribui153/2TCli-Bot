@@ -11,11 +11,12 @@ export default {
         if (!queue) {
             return {
                 custom: true,
-                content: "❌ Already stopped the music and left the voice channel",
+                content: "<:red_cross_mark:921691762433613824> Already stopped the music and left the voice channel",
                 ephemeral: true,
             }
         }
-        queue.stop();
+        queue.clear();
+        queue.skip();
 
         return {
             custom: true,
