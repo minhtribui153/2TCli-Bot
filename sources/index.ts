@@ -2,7 +2,6 @@ import DiscordJS, { Intents } from 'discord.js';
 import WOKCommands from 'wokcommands';
 import path from 'path';
 import 'dotenv/config';
-import categories from './data/categories';
 
 
 const prefix = process.env.BOT_PREFIX || "!";
@@ -38,7 +37,7 @@ const client = new DiscordJS.Client({
 });
 
 client.on('ready', async () => {
-    client.user?.setActivity('Servers', { type: 'LISTENING' });
+    client.user?.setActivity('/help', { type: 'LISTENING' });
     client.guilds.cache.forEach(guild => guilds.push(guild));
     console.log(`Info > Joined ${guilds.length} servers`)
     new WOKCommands(client, {
@@ -52,7 +51,44 @@ client.on('ready', async () => {
         typeScript: true,
         disabledDefaultCommands: ["help"],
     })
-        .setCategorySettings(categories)
+        .setCategorySettings([
+            {
+                name: 'Server',
+                emoji: '🗺️',
+            },
+            {
+                name: 'Moderation',
+                emoji: '🛠️',
+            },
+            {
+                name: 'Welcome',
+                emoji: '👋',
+            },
+            {
+                name: 'Entertainment',
+                emoji: '🎲',
+            },
+            {
+                name: 'Utility',
+                emoji: '🔧',
+            },
+            {
+                name: 'Documentation',
+                emoji: '🧪',
+            },
+            {
+                name: 'Backup',
+                emoji: '💾',
+            },
+            {
+                name: "Music",
+                emoji: "🎶"
+            },
+            {
+                name: "Ticketing",
+                emoji: "🎟️",
+            }
+        ])
         .setDefaultPrefix(prefix);
     
 });
