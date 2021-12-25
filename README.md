@@ -7,7 +7,8 @@
 | Backup     | Backups your Discord server data and load in case of server raids |
 | Economy    | A Discord Banking game for your Discord server                    |
 | Games      | Some games for your Discord server members to play                | 
-| Music      | A Complete Music system to party with your Discord Server members!|
+| Music      | A Complete Music system to party with your Discord Server members |
+| Ticket     | Contact Staff using Ticket Issues                                 |
 
 > ℹ️ There are still more features rolling out for this bot, and will be updated in this repository!
 
