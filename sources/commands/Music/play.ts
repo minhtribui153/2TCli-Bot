@@ -42,11 +42,20 @@ export default {
         interaction.deferReply();
 
         wait(2000);
+
+        let engine = QueryType.AUTO;
         
+        if (query.includes('open.spotify.com/playlist')) {
+            engine = QueryType.SPOTIFY_PLAYLIST;
+        } else if (query.includes('open.spotify.com/album')) {
+            engine = QueryType.SPOTIFY_ALBUM;
+        } else if (query.includes('soundcloud.com')) {
+            engine = QueryType.SOUNDCLOUD;
+        }
 
         const searchResult = await player.search(query, {
             requestedBy: interaction.user,
-            searchEngine: QueryType.AUTO,
+            searchEngine: engine,
         });
         const queue = await player.createQueue(guild as Guild, {
             metadata: channel,
@@ -54,19 +63,44 @@ export default {
 
         if (!queue.connection)
             await queue.connect(member?.voice.channel as GuildChannelResolvable);
-        
-        const msg = (queue.tracks.length > 0 || queue.current)
-            ? `✅ | **Added to Queue**: \`${searchResult.tracks[0].title}\``
-            : `🎶 | **Now Playing**: \`${searchResult.tracks[0].title}\``;
-            
-        interaction.editReply({ content: msg })
 
-        
-        searchResult.playlist
+        if (query.includes('open.spotify.com/playlist')) {
+            const msg = (queue.tracks.length > 0 || queue.current)
+                ? `✅ | **Added ${searchResult.tracks.length} songs from Spotify to Queue**`
+                : `✅ | **Added ${searchResult.tracks.length} songs from Spotify to Queue**\n🎶 | **Now Playing**: \`${searchResult.tracks[0].title}\``
+            
+            interaction.editReply({ content: msg });
+
+            searchResult.playlist
             ? queue.addTracks(searchResult.tracks)
             : queue.addTrack(searchResult.tracks[0]);
 
-        if (!queue.playing) await queue.play();
+            if (!queue.playing) await queue.play();
+        } else if (query.includes('youtube.com/playlist')) {
+            const msg = (queue.tracks.length > 0 || queue.current)
+                ? `✅ | **Added ${searchResult.tracks.length} tracks from YouTube to Queue**`
+                : `✅ | **Added ${searchResult.tracks.length} tracks from YouTube to Queue**\n🎶 | **Now Playing**: \`${searchResult.tracks[0].title}\``
+            
+            interaction.editReply({ content: msg });
 
+            searchResult.playlist
+            ? queue.addTracks(searchResult.tracks)
+            : queue.addTrack(searchResult.tracks[0]);
+            
+            if (!queue.playing) await queue.play();
+        } else {
+            const msg = (queue.tracks.length > 0 || queue.current)
+                ? `✅ | **Added to Queue**: \`${searchResult.tracks[0].title}\``
+                : `🎶 | **Now Playing**: \`${searchResult.tracks[0].title}\``;
+            
+            interaction.editReply({ content: msg });
+
+            searchResult.playlist
+            ? queue.addTracks(searchResult.tracks)
+            : queue.addTrack(searchResult.tracks[0]);
+
+            if (!queue.playing) await queue.play();
+        }
+        return;
     }
 } as ICommand; 

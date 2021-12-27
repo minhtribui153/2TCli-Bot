@@ -35,7 +35,7 @@ export default (client: Client) => {
                         .setEmoji('🔓')
                 )
         
-        if (!member.permissions.has("ADMINISTRATOR")) return interaction.reply({
+        if (!member.permissions.has("ADMINISTRATOR") && ['close_ticket', 'lock_ticket', 'unlock_ticket'].includes(customId)) return interaction.reply({
             content: "❌ Only Staff members can use these buttons!",
             ephemeral: true,
         });
@@ -90,7 +90,7 @@ export default (client: Client) => {
                         });
                     }
 
-                    const hasTranscript = await TicketTranscriptSchema.findById(guild?.id);
+                    const hasTranscript = await TicketTranscriptSchema.findById(guild?.id) as any;
                     if (!hasTranscript) return;
 
                     const attachment = await createTranscript(channel as TextChannel, {

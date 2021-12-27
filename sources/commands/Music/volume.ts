@@ -20,13 +20,20 @@ export default {
         const queue = player.getQueue(interaction.guildId);
         if (!queue?.playing) return {
             custom: true,
-            content: "<:red_cross_mark:921691762433613824> No music is currently being played",
+            content: "❌ No music is currently being played",
             ephemeral: true,
         }
         
-        if (!volumePercentage) return {
+        if (!volumePercentage) { return {
             custom: true,
             content: `ℹ️ The current volume is \`${queue.volume}%\``
+        }
+        } else if (volumePercentage <= 0 || volumePercentage >= 100) {
+            return {
+                custom: true,
+                content: "❌ Set the volume from (0-100) instead!",
+                ephemeral: true,
+            }
         }
         
         await queue.setVolume(volumePercentage);

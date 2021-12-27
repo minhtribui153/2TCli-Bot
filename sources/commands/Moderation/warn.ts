@@ -76,7 +76,7 @@ export default {
                 reason,
             });
 
-            const warns = await WarnSchema.find({ userId: user?.id, guildId: guild?.id });
+            const warns = await WarnSchema.find({ userId: user?.id, guildId: guild?.id }) as any;
 
             user?.send(`⚠️ You have been warned in ${guild?.name} by ${staff?.user.tag}\nReason: \`${reason}\`\nYou now have ${warns.length} warning${warns.length === 1 ? "" : "s"}.`);
 
@@ -89,7 +89,7 @@ export default {
                 }
             }
         } else if (subCommand === "remove") {
-            const warning = await WarnSchema.findByIdAndDelete(id);
+            const warning = await WarnSchema.findByIdAndDelete(id) as any;
             if (!warning) return {
                 custom: true,
                 content: `❌ Warning ${id} not found in <@${user?.id}>`,
@@ -110,7 +110,7 @@ export default {
             const warnings = await WarnSchema.find({
                 userId: user?.id,
                 guildId: guild?.id,
-            });
+            }) as any;
 
             const embed = new MessageEmbed()
                 .setTitle(`⚠️ ${user?.tag} warnings`)

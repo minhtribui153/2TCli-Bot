@@ -37,7 +37,10 @@ const client = new DiscordJS.Client({
 });
 
 client.on('ready', async () => {
-    client.user?.setActivity('/help', { type: 'LISTENING' });
+    client.user?.setActivity('Bot is Starting', { type: "LISTENING" })
+    setTimeout(() => {
+        client.user?.setActivity('/help', { type: 'LISTENING' });
+    }, 62000)
     client.guilds.cache.forEach(guild => guilds.push(guild));
     console.log(`Info > Joined ${guilds.length} servers`)
     new WOKCommands(client, {

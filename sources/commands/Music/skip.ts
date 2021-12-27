@@ -24,7 +24,7 @@ export default {
 
         return {
             custom: true,
-            content: "⏩ Skipped",
+            content: "⏭️ Skipped",
             ephemeral: true,
         }
     }

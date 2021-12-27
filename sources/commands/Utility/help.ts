@@ -139,7 +139,7 @@ export default {
                     .setLabel('End Interaction')
                     .setDisabled(state)
                     .setStyle("DANGER")
-                    .setEmoji('❌')
+                    .setEmoji('<:red_cross_mark:921691762433613824>')
             )
 
         const filter = (interaction: any) => interaction.user.id === member?.id;
