@@ -41,7 +41,7 @@ export default {
 
         interaction.deferReply();
 
-        wait(2000);
+        wait(1000);
 
         let engine = QueryType.AUTO;
         

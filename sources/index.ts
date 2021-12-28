@@ -1,4 +1,5 @@
 import DiscordJS, { Intents } from 'discord.js';
+import RPC from 'discord-rpc';
 import WOKCommands from 'wokcommands';
 import path from 'path';
 import 'dotenv/config';
@@ -7,6 +8,7 @@ import 'dotenv/config';
 const prefix = process.env.BOT_PREFIX || "!";
 const mongoURI = process.env.DB_URI as string;
 const guilds: any[] = [];
+let ready: boolean = false;
 
 if (!process.env.BOT_TOKEN) {
     console.error('Error > No bot token found');
@@ -25,6 +27,15 @@ if (!process.env.BOT_PREFIX) {
     console.log('Error > No bot prefix found');
 }
 
+if (!process.env.BOT_ID) {
+    console.log('Error > No bot ID found');
+    process.exit(1);
+}
+
+export const rpc = new RPC.Client({
+    transport: 'ipc',
+});
+
 
 const client = new DiscordJS.Client({
     intents: [
@@ -36,9 +47,25 @@ const client = new DiscordJS.Client({
     ],
 });
 
+rpc.on("ready", () => {
+    console.log("Info > Rich Presence Ready");
+    rpc.setActivity({
+        details: `Starting Discord Bot`,
+        largeImageKey: 'power',
+        smallImageKey: 'bot',
+        instance: true,
+    })
+})
 client.on('ready', async () => {
     client.user?.setActivity('Bot is Starting', { type: "LISTENING" })
     setTimeout(() => {
+        ready = true;
+        rpc.setActivity({
+            details: `Developing Discord Bot`,
+            largeImageKey: 'power',
+            smallImageKey: 'bot',
+            instance: true,
+        });
         client.user?.setActivity('/help', { type: 'LISTENING' });
     }, 62000)
     client.guilds.cache.forEach(guild => guilds.push(guild));
@@ -95,7 +122,13 @@ client.on('ready', async () => {
         .setDefaultPrefix(prefix);
     
 });
+client.on("interactionCreate", interaction => {
+    if (interaction.isCommand()) {
+        if (!ready) return interaction.reply({ content: `🤖 Bot is starting, please wait...`, ephemeral: true });
+    }
+});
 
 export default client;
 
+rpc.login({ clientId: `${process.env.BOT_ID}`});
 client.login(process.env.BOT_TOKEN);

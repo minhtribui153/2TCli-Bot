@@ -29,24 +29,28 @@ export default {
                 .setStyle("DANGER")
                 .setEmoji('<:red_cross_mark:921691762433613824>'),
                 new MessageButton()
-                .setCustomId('music_controls_mute')
-                .setLabel('Mute')
+                .setCustomId('music_controls_muted')
+                .setLabel('Mute/Unmute')
                 .setDisabled(state)
                 .setStyle("SECONDARY")
                 .setEmoji('🔇'),
-                new MessageButton()
-                .setCustomId('music_controls_unmute')
-                .setLabel('Unmute')
-                .setDisabled(state)
-                .setStyle("SECONDARY")
-                .setEmoji('🔈'),
                 new MessageButton()
                 .setCustomId('music_controls_stop')
                 .setLabel('Stop')
                 .setDisabled(state)
                 .setStyle("DANGER")
                 .setEmoji('🚪'),
-            ])
+            ]);
+        
+        const linkButton = (link: string, state: boolean) => new MessageActionRow()
+        .addComponents([
+            new MessageButton()
+            .setURL(link)
+            .setLabel('Song Link')
+            .setDisabled(state)
+            .setStyle("LINK")
+            .setEmoji('🎵'),
+        ]);
         
         const playComponent = (state: boolean) => new MessageActionRow()
             .addComponents([
@@ -88,14 +92,16 @@ export default {
         const embed = new MessageEmbed()
             .setTitle("Now Playing")
             .setDescription(`🎶 | [**${queue.current.title}**](${queue.current.url}) (\`${perc.progress}%\`)`)
-            .addField("Author", `${queue.current.author}`)
-            .addField("Source", source)
+            .addField("💁 Author", `${queue.current.author}`, true)
+            .addField("ℹ️ Source", source, true)
+            .addField("⏭️ Next Track", queue.tracks[0] ? queue.tracks[0].title : "None", true)
+            .addField('🔊 Volume', `${(queue.volume === 0) ? "Muted" : queue.volume + "%"}`, true)
             .addField("\u200b", progress)
             .setColor("YELLOW")
             .setFooter(`Queued by ${queue.current.requestedBy.tag}`, queue.current.requestedBy.displayAvatarURL({ dynamic: true }))
             .setThumbnail(queue.current.thumbnail);
         
-        const message = await interaction.reply({ embeds: [embed], components: [buttonComponent(false), playComponent(false)] }) as any;
+        const message = await interaction.reply({ embeds: [embed], components: [buttonComponent(false), playComponent(false), linkButton(queue.current.url, false)] }) as any;
         
         let stop = false;
         
@@ -110,7 +116,7 @@ export default {
             
             if (!queue2) {
                 collector.stop();
-                interaction.editReply({ embeds: [endEmbed], components: [buttonComponent(true), playComponent(true)] });
+                interaction.editReply({ embeds: [endEmbed], components: [buttonComponent(true), playComponent(true), linkButton("https://google.com", true)] });
                 stop = true;
             }
             
@@ -136,13 +142,15 @@ export default {
             .setTitle("Now Playing")
             .setDescription(`🎶 | [**${queue2.current.title}**](${queue2.current.url}) (\`${perc2.progress}%\`)`)
             
-            .addField("Author", `${queue.current.author}`)
-            .addField("Source", source)
+            .addField("💁 Author", `${queue.current.author}`, true)
+            .addField("ℹ️ Source", source, true)
+            .addField("⏭️ Next Track", queue.tracks[0] ? queue.tracks[0].title : "None", true)
+            .addField('🔊 Volume', `${(queue.volume === 0) ? "Muted" : queue.volume + "%"}`, true)
             .addField("\u200b", progress2)
             .setColor("YELLOW")
             .setFooter(`Queued by ${queue2.current.requestedBy.tag}`, queue2.current.requestedBy.displayAvatarURL({ dynamic: true }))
             .setThumbnail(queue2.current.thumbnail);
-            interaction.editReply({ embeds: [embed2], components: [buttonComponent(false), playComponent(false)] });
+            interaction.editReply({ embeds: [embed2], components: [buttonComponent(false), playComponent(false), linkButton(queue2.current.url, false)] });
             
             setTimeout(repeat, 5000);
         }
@@ -156,6 +164,7 @@ export default {
         const collector = channel?.createMessageComponentCollector({ filter, componentType: "BUTTON" });
 
         let paused = false;
+        let muted = false
 
         let currentMutedVolume: number = queue.volume;
 
@@ -191,19 +200,23 @@ export default {
                 }
                 i.reply({ content: `🔉 Volume is now at ${queue.volume}%`, ephemeral: true });
                 return;
-            } else if (i.customId === "music_controls_mute") {
-                currentMutedVolume = queue.volume;
-                queue.setVolume(0);
-                i.reply({ content: `🔇 Track is now muted`, ephemeral: true });
-                return;
+            } else if (i.customId === "music_controls_muted") {
+                muted = !muted;
+                if (muted) {
+                    currentMutedVolume = queue.volume;
+                    queue.setVolume(0);
+                    i.reply({ content: `🔇 Track is now muted`, ephemeral: true });
+                    return;
+                } else {
+                    queue.setVolume(currentMutedVolume);
+                    i.reply({ content: `🔈 Track is now unmuted`, ephemeral: true });
+                    return;
+                }
             } else if (i.customId === "music_controls_stop") {
                 queue.clear();
                 queue.skip();
+                collector.stop();
                 i.reply({ content: '✅ Stopped the music and left the voice channel', ephemeral: true });
-                return;
-            } else if (i.customId === "music_controls_unmute") {
-                queue.setVolume(currentMutedVolume);
-                i.reply({ content: `🔈 Track is now unmuted`, ephemeral: true });
                 return;
             }
         });
