@@ -46,7 +46,7 @@ export default {
         .addComponents([
             new MessageButton()
             .setURL(link)
-            .setLabel('Song Link')
+            .setLabel('Track Link')
             .setDisabled(state)
             .setStyle("LINK")
             .setEmoji('🎵'),

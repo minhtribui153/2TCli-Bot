@@ -32,10 +32,6 @@ if (!process.env.BOT_ID) {
     process.exit(1);
 }
 
-export const rpc = new RPC.Client({
-    transport: 'ipc',
-});
-
 
 const client = new DiscordJS.Client({
     intents: [
@@ -46,26 +42,10 @@ const client = new DiscordJS.Client({
         Intents.FLAGS.GUILD_VOICE_STATES,
     ],
 });
-
-rpc.on("ready", () => {
-    console.log("Info > Rich Presence Ready");
-    rpc.setActivity({
-        details: `Starting Discord Bot`,
-        largeImageKey: 'power',
-        smallImageKey: 'bot',
-        instance: true,
-    })
-})
 client.on('ready', async () => {
     client.user?.setActivity('Bot is Starting', { type: "LISTENING" })
     setTimeout(() => {
         ready = true;
-        rpc.setActivity({
-            details: `Developing Discord Bot`,
-            largeImageKey: 'power',
-            smallImageKey: 'bot',
-            instance: true,
-        });
         client.user?.setActivity('/help', { type: 'LISTENING' });
     }, 62000)
     client.guilds.cache.forEach(guild => guilds.push(guild));
@@ -130,5 +110,4 @@ client.on("interactionCreate", interaction => {
 
 export default client;
 
-rpc.login({ clientId: `${process.env.BOT_ID}`});
 client.login(process.env.BOT_TOKEN);
