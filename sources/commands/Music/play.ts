@@ -61,6 +61,10 @@ export default {
             metadata: channel,
         });
 
+        if (!searchResult.tracks[0]) {
+            return interaction.editReply({ content: "❌ No results found" });
+        }
+
         if (!queue.connection)
             await queue.connect(member?.voice.channel as GuildChannelResolvable);
 

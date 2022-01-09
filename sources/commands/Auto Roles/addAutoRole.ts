@@ -2,7 +2,7 @@ import { Client, GuildMember, MessageActionRow, MessageSelectMenu, MessageSelect
 import { ICommand } from "wokcommands";
 
 export default {
-    category: 'Server',
+    category: 'Auto Role',
     description: 'Adds a role to the Auto Role Message',
     permissions: ["ADMINISTRATOR"],
     minArgs: 3,

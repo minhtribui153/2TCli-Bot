@@ -1,7 +1,8 @@
 FROM ubuntu:latest
 RUN apt-get update
+RUN apt update
 RUN apt-get -y install curl
-RUN apt-get -y install ffmpeg
+RUN apt -y install ffmpeg
 
 # Now copy the content to get the Discord Bot Project in the Docker Container
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -

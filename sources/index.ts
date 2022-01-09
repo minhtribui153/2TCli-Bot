@@ -43,11 +43,12 @@ const client = new DiscordJS.Client({
     ],
 });
 client.on('ready', async () => {
-    client.user?.setActivity('Bot is Starting', { type: "LISTENING" })
+    client.user?.setActivity('Bot is Starting', { type: "LISTENING" });
     setTimeout(() => {
         ready = true;
         client.user?.setActivity('/help', { type: 'LISTENING' });
     }, 62000)
+    // appHandler(client);
     client.guilds.cache.forEach(guild => guilds.push(guild));
     console.log(`Info > Joined ${guilds.length} servers`)
     new WOKCommands(client, {
@@ -75,6 +76,10 @@ client.on('ready', async () => {
                 emoji: '👋',
             },
             {
+                name: 'Auto Role',
+                emoji: '🎩',
+            },
+            {
                 name: 'Entertainment',
                 emoji: '🎲',
             },
@@ -97,15 +102,10 @@ client.on('ready', async () => {
             {
                 name: "Ticketing",
                 emoji: "🎟️",
-            }
+            },
         ])
         .setDefaultPrefix(prefix);
     
-});
-client.on("interactionCreate", interaction => {
-    if (interaction.isCommand()) {
-        if (!ready) return interaction.reply({ content: `🤖 Bot is starting, please wait...`, ephemeral: true });
-    }
 });
 
 export default client;

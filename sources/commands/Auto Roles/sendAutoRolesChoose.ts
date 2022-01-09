@@ -2,7 +2,7 @@ import { TextChannel } from "discord.js";
 import { ICommand } from "wokcommands";
 
 export default {
-    category: 'Server',
+    category: 'Auto Role',
     description: 'Initialize Role Choose for members to get their roles!',
     permissions: ["ADMINISTRATOR"],
     minArgs: 2,

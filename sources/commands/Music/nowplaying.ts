@@ -89,16 +89,18 @@ export default {
         } else if (queue.current.source === "soundcloud") {
             source = "<:SoundCloud:921319045628854293> SoundCloud";
         }
+
+        let text = "\n";
+        text += `💁 ┃ **Author**: ${queue.current.author}\n`;
+        text += `ℹ️ ┃ **Source**: ${source}\n`;
+        text += `⏭️ ┃ **Next Track**: ${queue.tracks[0] ? queue.tracks[0].title : "No Tracks Next"}\n`;
+        text += `🔊 ┃ **Volume**: \`${(queue.volume === 0) ? "Muted" : queue.volume + "%"}\`\n`;
         const embed = new MessageEmbed()
-            .setTitle("Now Playing")
-            .setDescription(`🎶 | [**${queue.current.title}**](${queue.current.url}) (\`${perc.progress}%\`)`)
-            .addField("💁 Author", `${queue.current.author}`, true)
-            .addField("ℹ️ Source", source, true)
-            .addField("⏭️ Next Track", queue.tracks[0] ? queue.tracks[0].title : "None", true)
-            .addField('🔊 Volume', `${(queue.volume === 0) ? "Muted" : queue.volume + "%"}`, true)
+            .setTitle("▶️ ┃ Now Playing")
+            .setDescription(`🎶 ┃ [**${queue.current.title}**](${queue.current.url}) (\`${perc.progress}%\`)${text}`)
             .addField("\u200b", progress)
             .setColor("YELLOW")
-            .setFooter(`Queued by ${queue.current.requestedBy.tag}`, queue.current.requestedBy.displayAvatarURL({ dynamic: true }))
+            .setFooter(`Queued by ${queue.current.requestedBy.tag} ┃ ${queue.tracks.length} track${queue.tracks.length === 1 ? "" : "s"} left`, queue.current.requestedBy.displayAvatarURL({ dynamic: true }))
             .setThumbnail(queue.current.thumbnail);
         
         const message = await interaction.reply({ embeds: [embed], components: [buttonComponent(false), playComponent(false), linkButton(queue.current.url, false)] }) as any;
@@ -134,21 +136,22 @@ export default {
             } else if (queue2.current.source === "soundcloud") {
                 source = "<:SoundCloud:921319045628854293> SoundCloud";
             }
+
+            let text2 = "\n";
+            text2 += `💁 ┃ **Author**: ${queue2.current.author}\n`;
+            text2 += `ℹ️ ┃ **Source**: ${source}\n`;
+            text2 += `⏭️ ┃ **Next Track**: ${queue2.tracks[0] ? queue2.tracks[0].title : "No Tracks Next"}\n`;
+            text2 += `🔊 ┃ **Volume**: \`${(queue2.volume === 0) ? "Muted" : queue2.volume + "%"}\`\n`;
             
             const progress2 = queue2.createProgressBar();
             const perc2 = queue2.getPlayerTimestamp();
             
             const embed2 = new MessageEmbed()
-            .setTitle("Now Playing")
-            .setDescription(`🎶 | [**${queue2.current.title}**](${queue2.current.url}) (\`${perc2.progress}%\`)`)
-            
-            .addField("💁 Author", `${queue.current.author}`, true)
-            .addField("ℹ️ Source", source, true)
-            .addField("⏭️ Next Track", queue.tracks[0] ? queue.tracks[0].title : "None", true)
-            .addField('🔊 Volume', `${(queue.volume === 0) ? "Muted" : queue.volume + "%"}`, true)
+            .setTitle("▶️ ┃ Now Playing")
+            .setDescription(`🎶 ┃ [**${queue2.current.title}**](${queue2.current.url}) (\`${perc2.progress}%\`)${text2}`)
             .addField("\u200b", progress2)
             .setColor("YELLOW")
-            .setFooter(`Queued by ${queue2.current.requestedBy.tag}`, queue2.current.requestedBy.displayAvatarURL({ dynamic: true }))
+            .setFooter(`Queued by ${queue2.current.requestedBy.tag} ┃ ${queue2.tracks.length} track${queue2.tracks.length === 1 ? "" : "s"} left`, queue2.current.requestedBy.displayAvatarURL({ dynamic: true }))
             .setThumbnail(queue2.current.thumbnail);
             interaction.editReply({ embeds: [embed2], components: [buttonComponent(false), playComponent(false), linkButton(queue2.current.url, false)] });
             
