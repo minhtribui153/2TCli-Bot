@@ -25,7 +25,7 @@ export default async (client: Client) => {
             expires: { $lt: new Date() },
         }
 
-        const results = await PunishmentSchema.find(query);
+        const results = await PunishmentSchema.find(query) as any;
 
         for (const result of results) {
             const { guildId, userId, type } = result;

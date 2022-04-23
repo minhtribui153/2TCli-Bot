@@ -1,4 +1,4 @@
-import { GuildChannel, GuildMember, MessageEmbed, Role, TextBasedChannels, TextChannel } from "discord.js";
+import { GuildChannel, GuildMember, MessageEmbed, Role, TextChannel } from "discord.js";
 import { ICommand } from "wokcommands";
 import LockdownSchema from "../../models/LockdownSchema";
 

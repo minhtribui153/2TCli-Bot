@@ -8,7 +8,7 @@ export default {
     slash: true,
     callback: async ({ interaction, member, channel, guild }) => {
 
-        const queue = player.getQueue(interaction.guildId);
+        const queue = player.getQueue(interaction.guildId!);
         if (!queue?.playing) return {
             custom: true,
             content: "❌ No music is currently being played",

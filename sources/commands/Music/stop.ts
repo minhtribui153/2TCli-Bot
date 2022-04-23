@@ -7,7 +7,7 @@ export default {
     slash: true,
     guildOnly: true,
     callback: async ({ interaction, member }) => {
-        const queue = player.getQueue(interaction.guildId);
+        const queue = player.getQueue(interaction.guildId!);
         if (!queue) {
             return {
                 custom: true,

@@ -12,7 +12,7 @@
 
 > ℹ️ There are still more features rolling out for this bot, and will be updated in this repository!
 
-> ⚠️  Most features of this bot uses Slash Commands
+> ⚠️  This Discord Bot can only be run in Node v16.9.0
 
 ## Setup
 1. Clone this repository

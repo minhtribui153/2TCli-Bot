@@ -42,8 +42,7 @@ export default {
                 credit: false,
                 slash: true,
                 embedFoot: "Try your best to win!",
-                embedColor: "RED",
-                userSlash: "target",
+                embedColor: "RED" as any,
                 xEmoji: '❌',
                 oEmoji: '⭕',
                 idleEmoji: "➖"

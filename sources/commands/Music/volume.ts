@@ -17,7 +17,7 @@ export default {
     callback: async ({ interaction }) => {
 
         const volumePercentage = interaction.options.getInteger("level") as number;
-        const queue = player.getQueue(interaction.guildId);
+        const queue = player.getQueue(interaction.guildId!);
         if (!queue?.playing) return {
             custom: true,
             content: "❌ No music is currently being played",

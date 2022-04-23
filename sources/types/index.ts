@@ -1,4 +1,5 @@
-import { Channel, ContextMenuInteraction, Guild, TextBasedChannels, User } from "discord.js";
+import { ContextMenuInteraction, Guild, TextBasedChannel, User } from "discord.js";
+export * from './zoom';
 
 // Types
 export type Item = {
@@ -18,7 +19,7 @@ export type Source = "spotify" | "youtube" | "soundcloud";
 
 export type ContextMenuCallback = {
     interaction: ContextMenuInteraction;
-    channel: TextBasedChannels | null;
+    channel: TextBasedChannel | null;
     user: User;
     guild: Guild | null;
 }

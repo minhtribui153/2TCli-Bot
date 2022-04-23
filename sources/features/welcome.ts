@@ -14,7 +14,7 @@ export default (client: Client, instance: WOKCommands) => {
         let data = welcomeData[guild.id];
 
         if (!data) {
-            const results = await WelcomeSchema.findById(guild.id);
+            const results = await WelcomeSchema.findById(guild.id) as any;
             if (!results) return;
 
             const { channelId, text } = results;

@@ -10,7 +10,7 @@ export default {
     callback: async ({ interaction, member, channel, guild }) => {
 
         const queue = player.getQueue(guild?.id as string);
-        if (!queue?.playing) return {
+        if (!queue || !queue?.playing) return {
             custom: true,
             content: "❌ No music is currently being played",
             ephemeral: true,
@@ -82,7 +82,9 @@ export default {
             
         const reactEmoji = '⏹️';
         let source: string = "";
-        if (queue.current.source === "youtube") {
+        if (queue.current.author === "Netflix") {
+            source = "<:Netflix:934799057979842570> Netflix";
+        } else if (queue.current.source === "youtube") {
             source = "<:YouTube:921283491344314368> YouTube";
         } else if (queue.current.source === "spotify") {
             source = "<:Spotify:921285166402527254> Spotify";
@@ -91,7 +93,7 @@ export default {
         }
 
         let text = "\n";
-        text += `💁 ┃ **Author**: ${queue.current.author}\n`;
+        text += (queue.current.author !== "Netflix") ? `💁 ┃ **Author**: ${queue.current.author}\n` : "";
         text += `ℹ️ ┃ **Source**: ${source}\n`;
         text += `⏭️ ┃ **Next Track**: ${queue.tracks[0] ? queue.tracks[0].title : "No Tracks Next"}\n`;
         text += `🔊 ┃ **Volume**: \`${(queue.volume === 0) ? "Muted" : queue.volume + "%"}\`\n`;
@@ -128,8 +130,9 @@ export default {
                 setTimeout(repeat, 2000);
                 return;
             }
-            
-            if (queue2.current.source === "youtube") {
+            if(queue2.current.author === "Netflix") {
+                source = "<:Netflix:934799057979842570> Netflix";
+            } else if (queue2.current.source === "youtube") {
                 source = "<:YouTube:921283491344314368> YouTube";
             } else if (queue2.current.source === "spotify") {
                 source = "<:Spotify:921285166402527254> Spotify";
@@ -138,7 +141,7 @@ export default {
             }
 
             let text2 = "\n";
-            text2 += `💁 ┃ **Author**: ${queue2.current.author}\n`;
+            text2 += (queue2.current.author !== "Netflix") ? `💁 ┃ **Author**: ${queue2.current.author}\n` : "";
             text2 += `ℹ️ ┃ **Source**: ${source}\n`;
             text2 += `⏭️ ┃ **Next Track**: ${queue2.tracks[0] ? queue2.tracks[0].title : "No Tracks Next"}\n`;
             text2 += `🔊 ┃ **Volume**: \`${(queue2.volume === 0) ? "Muted" : queue2.volume + "%"}\`\n`;

@@ -31,7 +31,7 @@ export default {
     
         if (title) return sendLyrics(title);
 
-        const queue = player.getQueue(interaction.guildId);
+        const queue = player.getQueue(interaction.guildId!);
         if (!queue?.playing) return {
             custom: true,
             content: "❌ No music is currently being played",

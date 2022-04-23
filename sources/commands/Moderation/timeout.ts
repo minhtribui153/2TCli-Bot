@@ -1,6 +1,5 @@
 import { GuildMember, MessageEmbed } from "discord.js";
 import { ICommand } from "wokcommands";
-import fetch from "node-fetch";
 import ms from 'ms';
 import 'dotenv/config';
 
@@ -33,11 +32,6 @@ export default {
     ],
 
     callback: async ({ member, interaction }) => {
-        return {
-            custom: true,
-            content: "This slash command is not properly registered",
-            ephemeral: true,
-        }
         const target = interaction.options.getMember('target') as GuildMember;
         if (!target) return {
             custom: true,
@@ -79,16 +73,7 @@ export default {
 
         const msTime = ms(duration);
 
-        const date = new Date(Date.now() + msTime).toISOString();
-
-        fetch(`https://discord.com/api/guilds/${interaction.guildId}/members/${target.id}`, {
-            method: 'PATCH',
-            body: JSON.stringify({ communication_disabled_until: date }),
-            headers: {
-                'Content-Type': "application/json",
-                'Authorization': `Bot ${process.env.BOT_TOKEN}`,
-            }
-        })
+        await target.timeout(msTime, reason);
 
         return {
             custom: true,

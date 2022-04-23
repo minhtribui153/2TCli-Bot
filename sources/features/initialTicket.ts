@@ -22,7 +22,7 @@ export default (client: Client, instance: WOKCommands) => {
                 parent: check.categoryId as string,
                 permissionOverwrites: [
                     {
-                        id: member?.user.id,
+                        id: `${member?.user.id}`,
                         allow: ["SEND_MESSAGES", "VIEW_CHANNEL", "READ_MESSAGE_HISTORY"],
                     },
                     {
@@ -78,7 +78,7 @@ export default (client: Client, instance: WOKCommands) => {
 
     client.on("messageCreate", async (message) => {
         const { guildId, channel: { id: channelId }, member } = message;
-        const target = await TicketSchema.findOne({ guildId, channelId, memberId: member?.user?.id });
+        const target = await TicketSchema.findOne({ guildId, channelId, memberId: member?.user?.id }) as any;
         if (target && target.locked === true) {
             message.delete();
             const msg = await message.channel.send('❌ Cannot send messages while the ticket is locked!');

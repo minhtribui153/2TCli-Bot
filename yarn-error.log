@@ -1,0 +1,68 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands
+
+Yarn version: 
+  1.22.11
+
+Node version: 
+  16.9.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: ENOENT: no such file or directory, copyfile '/Users/tribui/Library/Caches/Yarn/v6/npm-bindings-1.5.0-10353c9e945334bc0511a6d90b38fbc7c9c504df-integrity/node_modules/bindings/LICENSE.md' -> '/Users/tribui/Desktop/Discord Bot Projects/2TCli/node_modules/bindings/LICENSE.md'
+
+npm manifest: 
+  {
+    "name": "2tcli",
+    "version": "3.2.4",
+    "description": "A powerful Discord Bot",
+    "main": "index.js",
+    "scripts": {
+      "start": "ts-node ./sources/index.ts",
+      "test:nodemon": "nodemon --ignore '*.json' ./sources/index.ts",
+      "test:ts-node-dev": "ts-node-dev ./sources/index.ts"
+    },
+    "author": "Minh Tri#6872",
+    "license": "MIT",
+    "dependencies": {
+      "axios": "^0.24.0",
+      "discord-backup": "^3.0.1",
+      "discord-html-transcripts": "^1.1.1",
+      "discord-player": "^5.2.0",
+      "discord-rich-presence": "^0.0.8",
+      "discord-together": "^1.3.25",
+      "discord.js": "^13.3.0",
+      "dotenv": "^10.0.0",
+      "express": "^4.17.1",
+      "ffmpeg-static": "^4.4.0",
+      "libsodium-wrappers": "^0.7.9",
+      "mongoose": "^6.0.12",
+      "ms": "^2.0.0",
+      "pug": "^3.0.2",
+      "simply-djs": "^2.0.97",
+      "wokcommands": "^1.5.3",
+      "ytdl-core": "^4.10.0"
+    },
+    "devDependencies": {
+      "@discordjs/opus": "^0.6.0",
+      "@discordjs/voice": "^0.7.5",
+      "@types/discord-rpc": "^4.0.0",
+      "@types/express": "^4.17.13",
+      "@types/ms": "^0.7.31",
+      "nodemon": "^2.0.14",
+      "ts-node": "^10.4.0",
+      "ts-node-dev": "^1.1.8",
+      "typescript": "^4.4.4"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile

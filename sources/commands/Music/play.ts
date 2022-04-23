@@ -39,12 +39,7 @@ export default {
             }
         }
 
-        interaction.deferReply();
-
-        wait(1000);
-
         let engine = QueryType.AUTO;
-        
         if (query.includes('open.spotify.com/playlist')) {
             engine = QueryType.SPOTIFY_PLAYLIST;
         } else if (query.includes('open.spotify.com/album')) {
@@ -52,6 +47,8 @@ export default {
         } else if (query.includes('soundcloud.com')) {
             engine = QueryType.SOUNDCLOUD;
         }
+
+        interaction.deferReply();
 
         const searchResult = await player.search(query, {
             requestedBy: interaction.user,

@@ -33,7 +33,7 @@ export default {
             ephemeral: true,
         }
         
-        const queue = player.getQueue(interaction.guildId);
+        const queue = player.getQueue(interaction.guildId!);
 
         if (!queue?.playing) return {
             custom: true,
